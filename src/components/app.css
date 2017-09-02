@@ -1,0 +1,15 @@
+.app {
+    padding: 20px;
+}
+
+.app h1 {
+    font-size: 26px;
+}
+
+.app input {
+    padding: 10px;
+}
+
+.app hr {
+    margin-top: 20px;
+}
