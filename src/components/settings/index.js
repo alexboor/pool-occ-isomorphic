@@ -2,18 +2,48 @@
  * Created by alexboor on 2/9/2017.
  */
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
-export default class Settings extends Component {
+import * as actions from '../../actions/settings';
+
+import { Button } from 'semantic-ui-react';
+
+export class Settings extends Component {
     constructor(props) {
         super(props);
 
         this.state = {};
     }
 
+    _onClickButton() {
+        this.props.actions.getDevicesList();
+    }
+
     render() {
         return(
-            <h1>Settings</h1>
+            <div>
+                <h1>Settings</h1>
+
+                <div>{this.props.vv}</div>
+
+                <Button onClick={::this._onClickButton}>
+                    Test!
+                </Button>
+            </div>
         )
     }
 
 }
+
+const mapStateToProps = (state) => ({
+    vv: state.settings.vv
+});
+
+
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators(actions, dispatch)
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Settings)

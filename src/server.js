@@ -3,13 +3,13 @@ import React from 'react';
 import ReactDom from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
 import routes from './routes';
+import { Provider } from 'react-redux';
+import configureStore from './store';
 
 const app = express();
 
 app.use((req, res) => {
-    // const componentHTML = ReactDom.renderToString(<App />);
-
-    console.log('REQUEST!!!');
+    const store = configureStore();
 
     match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
 
@@ -25,7 +25,13 @@ app.use((req, res) => {
             return res.status(404).send('Not found');
         }
 
-        const componentHTML = ReactDom.renderToString(<RouterContext {...renderProps} />);
+        // const componentHTML = ReactDom.renderToString(<RouterContext {...renderProps} />);
+
+        const componentHTML = ReactDom.renderToString(
+            <Provider store={store}>
+                <RouterContext {...renderProps} />
+            </Provider>
+        );
 
         return res.end(renderHTML(componentHTML));
     });
