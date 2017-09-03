@@ -24,15 +24,19 @@ export class App extends Component {
 
     render() {
         return (
+            <div>
             <Menu pointing secondary>
                 <Menu.Item header>Pool controll center</Menu.Item>
-                <Menu.Item name='Dashboard' active={true} onClick={::this._onClickDashboardLink}/>
-                <Menu.Item name="Settings" onClick={::this._onClickSettingsLink}/>
+                <Menu.Item name='Dashboard' active={true} href='/' onClick={::this._onClickDashboardLink}/>
+                <Menu.Item name="Settings" href='/settings' onClick={::this._onClickSettingsLink}/>
 
                 <Menu.Menu position='right'>
                     <Menu.Item name='Logout' />
                 </Menu.Menu>
             </Menu>
+
+                {this.props.children}
+            </div>
         );
     }
 }
