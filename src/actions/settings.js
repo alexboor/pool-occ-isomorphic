@@ -15,7 +15,7 @@ export function getDevicesList() {
         });
 
         fetch(`/api/servers/scan`, {
-            method: 'POST',
+            method: 'GET',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -24,7 +24,12 @@ export function getDevicesList() {
             .then(r => {
                 if (r.ok) {
                     r.json().then(r => {
-                        console.log(r)
+                        console.log(r);
+
+                        dispatch({
+                            type: SETTINGS_SRV_LIST_SECCESS,
+                            payload: r
+                        })
                     })
                 } else {
                     dispatch({

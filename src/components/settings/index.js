@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 
 import * as actions from '../../actions/settings';
 
-import { Button } from 'semantic-ui-react';
+import { Button, Loader } from 'semantic-ui-react';
 
 export class Settings extends Component {
     constructor(props) {
@@ -16,7 +16,7 @@ export class Settings extends Component {
         this.state = {};
     }
 
-    _onClickButton() {
+    componentDidMount() {
         this.props.actions.getDevicesList();
     }
 
@@ -25,11 +25,7 @@ export class Settings extends Component {
             <div>
                 <h1>Settings</h1>
 
-                <div>{this.props.vv}</div>
-
-                <Button onClick={::this._onClickButton}>
-                    Test!
-                </Button>
+                <Loader inline active={this.props.isAddrListLoading} />
             </div>
         )
     }
@@ -37,7 +33,7 @@ export class Settings extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    vv: state.settings.vv
+    isAddrListLoading: state.settings.isAddrListLoading
 });
 
 

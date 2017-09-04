@@ -6,6 +6,8 @@ import DevTools from '../components/devtools';
 import rootReducer from '../reducers';
 
 export default function (initalState = {}) {
+    console.info('DEV store');
+
     const store = createStore(rootReducer, initalState, compose(
         applyMiddleware(thunk),
         DevTools.instrument()

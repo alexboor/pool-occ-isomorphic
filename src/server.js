@@ -6,7 +6,11 @@ import routes from './routes';
 import { Provider } from 'react-redux';
 import configureStore from './store';
 
+let api_router = require('./api_routes');
+
 const app = express();
+
+app.use('/api', api_router);
 
 app.use((req, res) => {
     const store = configureStore();
@@ -37,6 +41,8 @@ app.use((req, res) => {
     });
 });
 
+
+
 const PORT = process.env.PORT || 3001;
 const assetUrl = process.env.NODE_ENV !== 'production' ? 'http://localhost:8050' : '/';
 
@@ -52,6 +58,7 @@ function renderHTML(componentHTML) {
         </head>
         <body>
             <div id="js-view">${componentHTML}</div>
+            <div id="dev-tools"></div>
             <script type="application/javascript" src="${assetUrl}/public/assets/bundle.js"></script>
         </body>
         </html>

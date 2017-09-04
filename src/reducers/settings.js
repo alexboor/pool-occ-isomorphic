@@ -3,16 +3,35 @@
  */
 'use strict';
 
-import { SETTINGS_TEST } from '../actions/settings';
+import {
+    SETTINGS_SRV_LIST_REQUEST,
+    SETTINGS_SRV_LIST_SECCESS,
+    SETTINGS_SRV_LIST_FAIL
+} from '../actions/settings';
 
 const initialState = {
-    vv: 1
+    isAddrListLoading: false
 };
 
 export default function (state = initialState, action) {
     switch (action.type) {
-        case SETTINGS_TEST:
-            return {...state, vv: state.vv + 1};
+        case SETTINGS_SRV_LIST_REQUEST:
+            return {
+                ...state,
+                isAddrListLoading: true
+            };
+
+        case SETTINGS_SRV_LIST_SECCESS:
+            return {
+                ...state,
+                isAddrListLoading: false
+            };
+
+        case SETTINGS_SRV_LIST_FAIL:
+            return {
+                ...state,
+                isAddrListLoading: false
+            };
 
         default:
             return state;
