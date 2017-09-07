@@ -74,3 +74,4 @@ tests/.hitch
 .idea
 npm-debug.log
 node_modules
+/public/assets/
