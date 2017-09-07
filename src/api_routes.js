@@ -6,17 +6,24 @@
 let express = require('express');
 let router = express.Router();
 
-let Servers = require('./models/servers');
-
-let servers = new Servers();
+import device from './models/devices';
 
 router.use(function(req, res, next) {
     next();
 });
 
 router.route('/servers/scan/')
+
+
+
     .get((req,res) => {
-            res.status(200).json(servers.getAddrList());
+        device.get()
+            .then(r => {
+                res.status(200).json(r);
+            })
+            .catch(err => {
+                console.error(err);
+            });
     });
 
 

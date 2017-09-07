@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import configureStore from './store';
 
 let api_router = require('./api_routes');
+let db = require('./db');
 
 const app = express();
 
