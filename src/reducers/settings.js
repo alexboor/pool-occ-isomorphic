@@ -79,7 +79,6 @@ export default function (state = initialState, action) {
             };
 
         case SETTNGS_DEV_DEL_SUCCESS:
-            console.log('SETTNGS_DEV_DEL_SUCCESS');
             return {
                 ...state,
                 isAddDeviceError: null,
