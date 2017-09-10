@@ -27,14 +27,21 @@ router.route('/servers/scan/')
     });
 
 
-router.route('/devices/')
+router.route('/devices/:id?')
     .post((req,res) => {
         device.create(req.body.ip, req.body.title)
             .then(r => {
                 res.status(200).json(r)
             })
             .catch(err => res.status(500).send(err.message ))
+    })
 
+    .delete((req,res) => {
+        device.delete(req.params.id)
+            .then(r => {
+                res.status(200).json(r)
+            })
+            .catch(err => res.status(500).send(err.message ))
 
     });
 

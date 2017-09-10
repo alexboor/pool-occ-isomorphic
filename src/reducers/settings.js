@@ -10,7 +10,8 @@ import {
     SETTINGS_DEV_ADD_LIST_CLEAN_ERROR,
     SETTINGS_DEV_ADD_REQUEST,
     SETTINGS_DEV_ADD_LIST_SUCCESS,
-    SETTINGS_DEV_ADD_LIST_FAIL
+    SETTINGS_DEV_ADD_LIST_FAIL,
+    SETTNGS_DEV_DEL_SUCCESS
 } from '../actions/settings';
 
 const initialState = {
@@ -77,7 +78,30 @@ export default function (state = initialState, action) {
                 isAddDeviceFormError: true
             };
 
+        case SETTNGS_DEV_DEL_SUCCESS:
+            console.log('SETTNGS_DEV_DEL_SUCCESS');
+            return {
+                ...state,
+                isAddDeviceError: null,
+                isAddDeviceLoading: false,
+                isAddDeviceFormError: false,
+                devlist: removeDevice(state.devlist, action.payload)
+            };
+
+
         default:
             return state;
     }
 }
+
+/**
+ * removeDevice
+ *
+ * Removing device from given array bu his id
+ *
+ * @param a The device list array
+ * @param id ID of device that need to be removed
+ *
+ * @return New instance of array
+ */
+const removeDevice = (a, id) => a.filter(i => i._id != id);

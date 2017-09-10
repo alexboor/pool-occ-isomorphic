@@ -13,8 +13,8 @@ let DeviceSchema = new Schema({
     modified: { type: Date, default: Date.now }
 });
 
-
 let DeviceModel = mongoose.model('Device', DeviceSchema);
+
 
 class Device {
 
@@ -53,7 +53,6 @@ class Device {
                 ipaddr: ip,
                 title: title
             }, (err, device) => {
-                console.log(err);
                 if (err) reject(err);
                 resolve(device);
             })
@@ -80,9 +79,12 @@ class Device {
      *
      * @returns {Promise}
      */
-    delete() {
+    delete(id) {
         return new Promise((resolve,reject) => {
-
+            DeviceModel.remove({_id: id}, (err, device) => {
+                if (err) reject(err);
+                resolve(device);
+            })
         })
     }
 

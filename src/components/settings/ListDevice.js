@@ -9,18 +9,23 @@ class ListDevice extends Component {
         this.state = {};
     }
 
-    row(ipaddr, k) {
+    _onDeleteClick(id,e) {
+        e.preventDefault();
+        this.props.onDelete(id)
+    }
+
+    row(ipaddr, k, id) {
         return(
             <Table.Row key={k}>
                 <Table.Cell>{ipaddr}</Table.Cell>
-                <Table.Cell><a href="#">Del</a></Table.Cell>
+                <Table.Cell><a href="#" onClick={this._onDeleteClick.bind(this, id)}>Del</a></Table.Cell>
             </Table.Row>
         )
     }
 
     list() {
         return this.props.list.map((i,k) => {
-            return this.row(i.ipaddr,k)
+            return this.row(i.ipaddr,k,i._id)
         });
     }
 

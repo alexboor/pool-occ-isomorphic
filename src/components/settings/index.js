@@ -23,8 +23,12 @@ export class Settings extends Component {
         this.props.actions.getDevicesList();
     }
 
-    onAddDevice(ipaddr) {
+    _onAddDevice(ipaddr) {
         if (ipaddr) this.props.actions.addDevice(ipaddr);
+    }
+
+    _onDeleteDevice(id) {
+        this.props.actions.deleteDevice(id);
     }
 
     _onDissmissError() {
@@ -47,11 +51,11 @@ export class Settings extends Component {
 
                 {this.props.isAddrListLoading ?
                     <Loader inline active />
-                    : <ListDevices list={this.props.devlist}/>
+                    : <ListDevices list={this.props.devlist} onDelete={::this._onDeleteDevice}/>
                 }
 
                 <AddDevice
-                    create={::this.onAddDevice}
+                    create={::this._onAddDevice}
                     isLoading={this.props.isAddDeviceLoading}
                     isError={this.props.isAddDeviceFormError}
                 />

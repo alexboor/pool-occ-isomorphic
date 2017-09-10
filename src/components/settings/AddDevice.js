@@ -22,9 +22,14 @@ class AddDevice extends Component {
         this.setState({ipaddr:e.target.value})
     }
 
+    _onSubmit(e) {
+        this.props.create(this.state.ipaddr);
+        this.setState({ipaddr:''})
+    }
+
     render() {
         return(
-            <Form onSubmit={this.props.create.bind(this,this.state.ipaddr)}>
+            <Form onSubmit={::this._onSubmit}>
                 <Form.Group>
                     <Form.Input
                         placeholder='IP address'

@@ -11,6 +11,7 @@ export const SETTINGS_DEV_ADD_REQUEST = 'SETTINGS_DEV_ADD_REQUEST';
 export const SETTINGS_DEV_ADD_LIST_SUCCESS = 'SETTINGS_DEV_ADD_LIST_SECCESS';
 export const SETTINGS_DEV_ADD_LIST_FAIL = 'SETTINGS_DEV_ADD_LIST_FAIL';
 export const SETTINGS_DEV_ADD_LIST_CLEAN_ERROR = 'SETTINGS_DEV_ADD_LIST_CLEAN_ERROR';
+export const SETTNGS_DEV_DEL_SUCCESS = 'SETTNGS_DEV_DEL_SUCCESS';
 
 export function getDevicesList() {
     return (dispatch) => {
@@ -92,6 +93,37 @@ export const addDevice = (ip) => {
                 payload: 'Wrong IP address format'
             })
         }
+    }
+};
+
+
+export const deleteDevice = (id) => {
+    return (dispatch) => {
+        fetch(`/api/devices/${id}/`, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(r => {
+                if (r.ok) {
+                    r.json().then(r => {
+                        if (r.ok == 1) {
+                            dispatch({
+                                type: SETTNGS_DEV_DEL_SUCCESS,
+                                payload: id
+                            })
+                        }
+                    })
+                }
+            })
+            .catch(err => {
+                dispatch({
+                    type: SETTINGS_DEV_ADD_LIST_FAIL,
+                    payload: 'Can\'t delete the device'
+                })
+            })
     }
 };
 
