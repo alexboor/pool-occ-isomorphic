@@ -7,7 +7,10 @@ import { connect } from 'react-redux';
 
 import * as actions from '../../actions/settings';
 
-import { Button, Loader } from 'semantic-ui-react';
+import { Button, Loader, Message } from 'semantic-ui-react';
+
+import ListDevices from './ListDevice';
+import AddDevice from './AddDevice';
 
 export class Settings extends Component {
     constructor(props) {
@@ -20,12 +23,38 @@ export class Settings extends Component {
         this.props.actions.getDevicesList();
     }
 
+    onAddDevice(ipaddr) {
+        if (ipaddr) this.props.actions.addDevice(ipaddr);
+    }
+
+    _onDissmissError() {
+        this.props.actions.cleanError();
+    }
+
     render() {
         return(
             <div>
                 <h1>Settings</h1>
 
-                <Loader inline active={this.props.isAddrListLoading} />
+                {this.props.isAddDeviceError ?
+                    <Message
+                        negative
+                        onDismiss={::this._onDissmissError}
+                        content={this.props.isAddDeviceError.message}
+                    />
+                    : null
+                }
+
+                {this.props.isAddrListLoading ?
+                    <Loader inline active />
+                    : <ListDevices list={this.props.devlist}/>
+                }
+
+                <AddDevice
+                    create={::this.onAddDevice}
+                    isLoading={this.props.isAddDeviceLoading}
+                    isError={this.props.isAddDeviceFormError}
+                />
             </div>
         )
     }
@@ -33,7 +62,11 @@ export class Settings extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    isAddrListLoading: state.settings.isAddrListLoading
+    isAddrListLoading: state.settings.isAddrListLoading,
+    isAddDeviceLoading: state.settings.isAddDeviceLoading,
+    isAddDeviceError: state.settings.isAddDeviceError,
+    isAddDeviceFormError: state.settings.isAddDeviceFormError,
+    devlist: state.settings.devlist
 });
 
 

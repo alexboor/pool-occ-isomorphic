@@ -5,11 +5,15 @@ import { match, RouterContext } from 'react-router';
 import routes from './routes';
 import { Provider } from 'react-redux';
 import configureStore from './store';
+import bodyParser from 'body-parser';
 
 let api_router = require('./api_routes');
 let db = require('./db');
 
 const app = express();
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.use('/api', api_router);
 

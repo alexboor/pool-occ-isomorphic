@@ -27,6 +27,18 @@ router.route('/servers/scan/')
     });
 
 
+router.route('/devices/')
+    .post((req,res) => {
+        device.create(req.body.ip, req.body.title)
+            .then(r => {
+                res.status(200).json(r)
+            })
+            .catch(err => res.status(500).send(err.message ))
+
+
+    });
+
+
 
 
 

@@ -5,8 +5,12 @@
 
 export const SETTINGS_TEST = 'SETTINGS_TEST';
 export const SETTINGS_SRV_LIST_REQUEST = 'SETTINGS_SRV_LIST_REQUEST';
-export const SETTINGS_SRV_LIST_SECCESS = 'SETTINGS_SRV_LIST_SECCESS';
+export const SETTINGS_SRV_LIST_SUCCESS = 'SETTINGS_SRV_LIST_SECCESS';
 export const SETTINGS_SRV_LIST_FAIL = 'SETTINGS_SRV_LIST_FAIL';
+export const SETTINGS_DEV_ADD_REQUEST = 'SETTINGS_DEV_ADD_REQUEST';
+export const SETTINGS_DEV_ADD_LIST_SUCCESS = 'SETTINGS_DEV_ADD_LIST_SECCESS';
+export const SETTINGS_DEV_ADD_LIST_FAIL = 'SETTINGS_DEV_ADD_LIST_FAIL';
+export const SETTINGS_DEV_ADD_LIST_CLEAN_ERROR = 'SETTINGS_DEV_ADD_LIST_CLEAN_ERROR';
 
 export function getDevicesList() {
     return (dispatch) => {
@@ -24,10 +28,8 @@ export function getDevicesList() {
             .then(r => {
                 if (r.ok) {
                     r.json().then(r => {
-                        console.log(r);
-
                         dispatch({
-                            type: SETTINGS_SRV_LIST_SECCESS,
+                            type: SETTINGS_SRV_LIST_SUCCESS,
                             payload: r
                         })
                     })
@@ -48,3 +50,59 @@ export function getDevicesList() {
             })
     }
 }
+
+
+export const addDevice = (ip) => {
+    return (dispatch) => {
+        dispatch({
+            type: SETTINGS_DEV_ADD_REQUEST
+        });
+
+        if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ip)) {
+
+            fetch(`/api/devices/`,{
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ip:ip,title:ip})
+            })
+                .then(r => {
+                    if (r.ok) {
+                        r.json().then(r => {
+                            dispatch({
+                                type: SETTINGS_DEV_ADD_LIST_SUCCESS,
+                                payload: r
+                            });
+                        })
+                    }
+                })
+                .catch(err => {
+                    dispatch({
+                        type: SETTINGS_DEV_ADD_LIST_FAIL,
+                        payload: err
+                    })
+                })
+
+
+        } else {
+            dispatch({
+                type: SETTINGS_DEV_ADD_LIST_FAIL,
+                payload: 'Wrong IP address format'
+            })
+        }
+    }
+};
+
+
+/**
+ * cleanError
+ *
+ * Clean all errors
+ *
+ * @returns {{type: string}}
+ */
+export const cleanError = () => {
+    return { type: SETTINGS_DEV_ADD_LIST_CLEAN_ERROR }
+};

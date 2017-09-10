@@ -8,10 +8,11 @@ let Schema = mongoose.Schema;
 
 
 let DeviceSchema = new Schema({
-    ipaddr: { type: String, required: true },
-    title: { type: String, required: false },
+    ipaddr: {type: String, required: true},
+    title: {type: String, required: false},
     modified: { type: Date, default: Date.now }
 });
+
 
 let DeviceModel = mongoose.model('Device', DeviceSchema);
 
@@ -52,6 +53,7 @@ class Device {
                 ipaddr: ip,
                 title: title
             }, (err, device) => {
+                console.log(err);
                 if (err) reject(err);
                 resolve(device);
             })
